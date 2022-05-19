@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXGameRe", "DirectXGameRe.vcxproj", "{BE0FEB55-A1C0-4A0F-B30E-A8CA9E201E25}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE0FEB55-A1C0-4A0F-B30E-A8CA9E201E25}.Debug|x64.ActiveCfg = Debug|x64
+		{BE0FEB55-A1C0-4A0F-B30E-A8CA9E201E25}.Debug|x64.Build.0 = Debug|x64
+		{BE0FEB55-A1C0-4A0F-B30E-A8CA9E201E25}.Release|x64.ActiveCfg = Release|x64
+		{BE0FEB55-A1C0-4A0F-B30E-A8CA9E201E25}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56FD8716-4B02-42C2-80B6-1E4469BA3540}
+	EndGlobalSection
+EndGlobal
