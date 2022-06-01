@@ -10,6 +10,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DebugCamera.h"
+#include "Player.h"
 
 /// <summary>
 /// ゲームシーン
@@ -18,20 +19,8 @@ class GameScene {
 
   public: // メンバ関数
 
-	  //パーツID
-	  enum PartId {
-		  kRoot,//大元
-		  kSpine,//脊椎
-		  kChest,//胸
-		  kHead,//頭
-		  kArmL,//左腕
-		  kArmR,//右腕
-		  kHip,//尻
-		  kLegL,//左足
-		  kLegR,//右足
-
-		  kNumPartId
-	  };
+	  //自キャラ
+	  Player* player_ = nullptr;
 
 	/// <summary>
 	/// コンストクラタ
@@ -74,8 +63,8 @@ class GameScene {
 	uint32_t textureHandle_ = 0;
 	//3Dモデル
 	Model* model_ = nullptr;
-	//ワールドトランスフォーム
-	WorldTransform worldTransforms_[100];
+	////ワールドトランスフォーム
+	//WorldTransform worldTransforms_[100];
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
