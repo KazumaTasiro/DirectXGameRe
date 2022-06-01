@@ -17,6 +17,22 @@
 class GameScene {
 
   public: // メンバ関数
+
+	  //パーツID
+	  enum PartId {
+		  kRoot,//大元
+		  kSpine,//脊椎
+		  kChest,//胸
+		  kHead,//頭
+		  kArmL,//左腕
+		  kArmR,//右腕
+		  kHip,//尻
+		  kLegL,//左足
+		  kLegR,//右足
+
+		  kNumPartId
+	  };
+
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -47,6 +63,9 @@ class GameScene {
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
+
+
+
 
 	//カメラ上方向の角度
 	float viewAngle = 0.0f;
