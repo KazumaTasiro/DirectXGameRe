@@ -55,5 +55,4 @@ private:
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
-	float M_PI = 3.141592;
 };

@@ -8,7 +8,7 @@
 #include <random>
 #include <DirectXMath.h>
 
-
+float M_PI = 3.141592f;
 
 GameScene::GameScene() {}
 
