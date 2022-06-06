@@ -61,6 +61,7 @@ void Player::Move()
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
+	
 	Afin(worldTransform_);
 
 	worldTransform_.TransferMatrix();
