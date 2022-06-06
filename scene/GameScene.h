@@ -63,4 +63,5 @@ class GameScene {
 	/// 
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
+
 };
