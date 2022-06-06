@@ -7,7 +7,7 @@
 #include <math.h>
 #include <random>
 
-float M_PI = 3.141592;
+float M_PI = 3.141592f;
 
 GameScene::GameScene() {}
 
