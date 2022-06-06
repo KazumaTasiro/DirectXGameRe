@@ -64,4 +64,7 @@ class GameScene {
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 
+	void Afin(WorldTransform& worldTransform_);
+
+
 };
