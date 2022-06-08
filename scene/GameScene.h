@@ -58,6 +58,10 @@ class GameScene {
 	/// </summary>
 	void Draw();
 
+
+	//アフィン変換関数
+	void Afin(WorldTransform& worldTransform_);
+
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -85,16 +89,5 @@ class GameScene {
 	/// 
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
-
-	int clampCopyProducts(int value, int min, int max)
-	{
-		if (value < min) {
-			return min;
-		}
-		else if (value > max) {
-			return max;
-		}
-		return value;
-	}
 };
 

@@ -39,7 +39,7 @@ void GameScene::Initialize() {
 
 	////カメラ上方向ベクトルを設定（右上４５度指定）
 	//viewProjection_.up = { cosf(M_PI / 4.0f),sinf(M_PI / 4.0f),0.0f };
-	
+
 	//カメラ垂直方向視野角を設定
 	/*viewProjection_.fovAngleY= DirectX::XMConvertToRadians(10.0f);*/
 
@@ -57,7 +57,7 @@ void GameScene::Initialize() {
 
 		//// X,Y、Z方向のスケーリングを設定
 		//worldTransforms_[i].scale_ = { 1.0f, 1.0f, 1.0f };
-		
+
 		//ワールドトランスフォームの初期化
 		worldTransforms_[i].Initialize();
 	}
@@ -213,7 +213,7 @@ void GameScene::Initialize() {
 	worldTransforms_[PartId::kLegR].translation_ = { 9.0f, -9.0f, 0 };
 	worldTransforms_[PartId::kLegR].parent_ = &worldTransforms_[PartId::kHip];
 	worldTransforms_[PartId::kLegR].Initialize();
-	
+
 }
 
 void GameScene::Update() {
@@ -228,7 +228,7 @@ void GameScene::Update() {
 	}
 	//注視点移動処理
 	{
-	
+
 
 		//デバッグ用表示
 		debugText_->SetPos(50, 70);
@@ -240,14 +240,14 @@ void GameScene::Update() {
 
 		//デバッグ用表示
 		debugText_->SetPos(50, 90);
-		debugText_->Printf("up:(%f,%f,%f)",viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
+		debugText_->Printf("up:(%f,%f,%f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 	}
 
 	//FoV変換処理
 	{
 
 		//デバッグ用表示
-		debugText_->SetPos(50,110);
+		debugText_->SetPos(50, 110);
 		debugText_->Printf("fovAngleY(Degree):%f", DirectX::XMConvertToRadians(viewProjection_.fovAngleY));
 
 	}
@@ -291,10 +291,41 @@ void GameScene::Update() {
 		else if (input_->PushKey(DIK_RIGHT)) {
 			move = { kCharacterSpeed, 0, 0 };
 		}
+		//上半身回転処理
+		{
+			//上半身の回転の速さ[ラジアン/frame]
+			const float kChestRotSpeed = 0.05f;
+
+			//押した方向で移動ベクトルを変更
+			if (input_->PushKey(DIK_U)) {
+				worldTransforms_[PartId::kChest].rotation_.y -= kChestRotSpeed;
+			}
+			else if (input_->PushKey(DIK_I)) {
+				worldTransforms_[PartId::kChest].rotation_.y += kChestRotSpeed;
+			}
+
+
+		}
+		//下半身回転処理
+		{
+			//下半身の回転速さ[ラジアン/frame]
+			const float kHipRotSpeed = 0.05f;
+			//押した方向で移動ベクトルを変更
+			if (input_->PushKey(DIK_J)) {
+				worldTransforms_[PartId::kHip].rotation_.y -= kHipRotSpeed;
+			}
+			else if (input_->PushKey(DIK_K)) {
+				worldTransforms_[PartId::kHip].rotation_.y += kHipRotSpeed;
+			}
+		}
 		//注視点移動（ベクトルの加算）
 		worldTransforms_[PartId::kRoot].translation_.x += move.x;
 		worldTransforms_[PartId::kRoot].translation_.y += move.y;
 		worldTransforms_[PartId::kRoot].translation_.z += move.z;
+
+		Afin(worldTransforms_[PartId::kRoot]);
+
+		worldTransforms_[PartId::kRoot].TransferMatrix();
 		//デバック用表示
 		debugText_->SetPos(50, 150);
 		debugText_->Printf(
@@ -303,8 +334,12 @@ void GameScene::Update() {
 			worldTransforms_[PartId::kRoot].translation_.z);
 	}
 	//大元から順に更新していく
-	for (int i = 0; i < 10; i++) {
-		worldTransforms_[i].parent_;
+	for (int i = 0; i < kNumPartId; i++) {
+		Afin(worldTransforms_[i]);
+		if (i != 0) {
+			worldTransforms_[i].matWorld_ *= worldTransforms_[i].parent_->matWorld_;
+		}
+		worldTransforms_[i].TransferMatrix();
 	}
 }
 
@@ -335,7 +370,10 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	// 3Dモデル描画
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < kNumPartId; i++) {
+		if (i < 2) {
+			continue;
+		}
 		model_->Draw(worldTransforms_[i], viewProjection_, textureHandle_);
 	}
 	//ライン描画が参照するビュープロジェクションを指定する
@@ -362,3 +400,70 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+
+void GameScene::Afin(WorldTransform& worldTransform_)
+{
+	Matrix4 matScale;
+	Matrix4 matRot;
+	Matrix4 matRotX;
+	Matrix4 matRotY;
+	Matrix4 matRotZ;
+	Matrix4 matTrans;
+	matScale = {
+	worldTransform_.scale_.x,0,0,0,
+	0,worldTransform_.scale_.y,0,0,
+	0,0,worldTransform_.scale_.z,0,
+	0,0,0,1
+	};
+	matTrans = {
+	1,0,0,0,
+	0,1,0,0,
+	0,0,1,0,
+	worldTransform_.translation_.x,worldTransform_.translation_.y,worldTransform_.translation_.z,1
+	};
+	//Z用回転軸の設定
+	matRotZ = {
+	cos(worldTransform_.rotation_.z),sin(worldTransform_.rotation_.z),0,0,
+	-sin(worldTransform_.rotation_.z),cos(worldTransform_.rotation_.z),0,0,
+	0,0,1,0,
+	0,0,0,1
+	};
+
+	//X用回転軸の設定
+	matRotX = {
+	1,0,0,0,
+	0,cos(worldTransform_.rotation_.x),sin(worldTransform_.rotation_.x),0,
+	0,-sin(worldTransform_.rotation_.x),cos(worldTransform_.rotation_.x),0,
+	0,0,0,1
+	};
+
+	//Y用回転軸の設定
+	matRotY = {
+	cos(worldTransform_.rotation_.y),0,-sin(worldTransform_.rotation_.y),0,
+	0,1,0,0,
+	sin(worldTransform_.rotation_.y),0,cos(worldTransform_.rotation_.y),0,
+	0,0,0,1
+	};
+
+	matRot = {
+	1,0,0,0,
+	0,1,0,0,
+	0,0,1,0,
+	0,0,0,1
+	};
+	//各軸の回転行列を合成
+	matRot *= matRotZ;
+	matRot *= matRotX;
+	matRot *= matRotY;
+
+	worldTransform_.matWorld_ = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		0,0,0,1
+	};
+	worldTransform_.matWorld_ *= matScale;
+	worldTransform_.matWorld_ *= matRot;
+	worldTransform_.matWorld_ *= matTrans;
+}
+
