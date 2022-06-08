@@ -34,6 +34,7 @@ void Player::Move()
 	Vector3 move = { 0,0,0 };
 
 	const float speed = 1.0f;
+	const float RotSpeed = 0.05f;
 
 	if (input_->PushKey(DIK_A)) {
 		move.x -= speed;
@@ -47,6 +48,14 @@ void Player::Move()
 	else if (input_->PushKey(DIK_S)) {
 		move.y -= speed;
 	}
+
+	if (input_->PushKey(DIK_U)) {
+		worldTransform_.rotation_.y -= RotSpeed;
+	}
+	else if (input_->PushKey(DIK_I)) {
+		worldTransform_.rotation_.y += RotSpeed;
+	}
+
 
 	worldTransform_.translation_ += move;
 
