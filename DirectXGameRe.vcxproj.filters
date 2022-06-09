@@ -72,7 +72,7 @@
     <ClCompile Include="scene\PlayerBullet.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Afin.cpp">
+    <ClCompile Include="scene\Afin.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -164,7 +164,7 @@
     <ClInclude Include="scene\PlayerBullet.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Afin.h">
+    <ClInclude Include="scene\Afin.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
   </ItemGroup>
