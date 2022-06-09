@@ -469,8 +469,6 @@ void GameScene::Afin(WorldTransform& worldTransform_)
 
 void GameScene::worldTransChildUpdate(WorldTransform& worldTransform_)
 {
-	Afin(worldTransform_);
 	worldTransform_.matWorld_ *= worldTransform_.parent_->matWorld_;
-	worldTransform_.TransferMatrix();
 }
 
