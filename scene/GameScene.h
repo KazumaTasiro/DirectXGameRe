@@ -62,6 +62,9 @@ class GameScene {
 	//アフィン変換関数
 	void Afin(WorldTransform& worldTransform_);
 
+	//ワールドトランスフォーム更新関数
+	void worldTransChildUpdate(WorldTransform& worldTransform_);
+
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
