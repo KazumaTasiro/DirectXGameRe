@@ -5,15 +5,16 @@
 #include "DebugText.h"
 #include "Input.h"
 #include "ViewProjection.h"
+#include "Afin.h"
 
 ///<summary>
 ///©ƒLƒƒƒ‰
 ///</summary>
 class PlayerBullet {
-
+public:
 	///<summary>
-///‰Šú‰»
-///</summary>
+	///‰Šú‰»
+	///</summary>
 
 	void Initialize(Model* model, const Vector3& position);;
 

@@ -26,6 +26,13 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 void Player::Update()
 {
 	Move();
+	//キャラクター攻撃更新
+	Attack();
+
+	//弾更新
+	if (bullet_) {
+		bullet_->Update();
+	}
 }
 
 void Player::Move()
@@ -84,6 +91,21 @@ void Player::Move()
 void Player::Draw(ViewProjection &viewProjection_)
 {
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+	if (bullet_) {
+		bullet_->Draw(viewProjection_);
+	}
+}
+void Player::Attack()
+{
+	if (input_->PushKey(DIK_SPACE)) 
+	{
+		//弾を生成し、初期化
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(model_, worldTransform_.translation_);
+	
+		//弾を発射する
+		bullet_ = newBullet;
+	}
 }
 void Player::Afin(WorldTransform &worldTransform_)
 {

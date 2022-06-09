@@ -3,8 +3,10 @@
 void PlayerBullet::Initialize(Model* model, const Vector3& position)
 {
 	assert(model);
+
+	model_ = model;
 	//テクスチャ読み込み
-	textureHandle_ = TextureManager::Load("black.png");
+	textureHandle_ = TextureManager::Load("mario.jpg");
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -15,8 +17,11 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position)
 
 void PlayerBullet::Update()
 {
+	afin::Afin(worldTransform_);
+	worldTransform_.TransferMatrix();
 }
 
 void PlayerBullet::Draw(const ViewProjection& viewProjection_)
 {
+	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 }
