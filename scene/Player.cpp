@@ -150,3 +150,4 @@ void Player::Afin(WorldTransform &worldTransform_)
 	worldTransform_.matWorld_ *= matRot;
 	worldTransform_.matWorld_ *= matTrans;
 }
+
