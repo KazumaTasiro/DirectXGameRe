@@ -30,7 +30,11 @@ void GameScene::Initialize() {
 	//３Dモデルの生成
 	model_ = Model::Create();
 	//ワールドトランスフォーム
-	worldTransform_.Initialize();
+	for (int i = 0; i < 100; i++) {
+		worldTransform_[i].Initialize();
+
+	
+	}
 	//ビュープロジェクト
 	viewProjection_.Initialize();
 	//軸方向表示の表示を有効にする
@@ -56,6 +60,8 @@ void GameScene::Initialize() {
 
 	////行列の転送
 	//worldTransform_.TransferMatrix();
+
+	
 }
 
 void GameScene::Update() { debugCamera_->Update(); }
@@ -87,7 +93,9 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	// 3Dモデル描画
-	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
+	for (int i = 0; i < 100; i++) {
+		model_->Draw(worldTransform_[i], debugCamera_->GetViewProjection(), textureHandle_);
+	}
 	//ライン描画が参照するビュープロジェクションを指定する
 	//PrimitiveDrawer::GetInstance()->DrawLine3d(Vector3(0, 0, 0), Vector3(10, 20, 0), Vector4(0xff, 0xff, 0, 0xff));
 
