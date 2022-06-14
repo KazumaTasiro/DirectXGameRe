@@ -104,7 +104,7 @@ void Player::Attack()
 		newBullet->Initialize(model_, worldTransform_.translation_);
 	
 		//’e‚ð”­ŽË‚·‚é
-		bullet_ = newBullet;
+		bullet_.reset(newBullet);
 	}
 }
 void Player::Afin(WorldTransform &worldTransform_)

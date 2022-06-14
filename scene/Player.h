@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "ViewProjection.h"
 #include "PlayerBullet.h"
+#include <memory>
 
 ///<summary>
 ///Ž©ƒLƒƒƒ‰
@@ -63,5 +64,5 @@ private:
 	ViewProjection viewProjection_;
 
 	//’e
-	PlayerBullet* bullet_ = nullptr;
+	std::unique_ptr<PlayerBullet> bullet_;
 };
