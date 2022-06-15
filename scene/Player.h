@@ -7,6 +7,7 @@
 #include "ViewProjection.h"
 #include "PlayerBullet.h"
 #include <memory>
+#include <list>
 
 ///<summary>
 ///é©ÉLÉÉÉâ
@@ -20,24 +21,24 @@ public:
 	///<summary>
 	///èâä˙âª
 	///</summary>
-	
-	void Initialize(Model* model,uint32_t textureHandle);
+
+	void Initialize(Model* model, uint32_t textureHandle);
 
 
 
 	///<summary>
 	///çXêV
 	///</summary>
-	
+
 	void Update();
 	void Move();
-	void Afin(WorldTransform &worldTransform_);
+	void Afin(WorldTransform& worldTransform_);
 
 	///<summary>
 	///ï`âÊ
 	///</summary>
 
-	void Draw(ViewProjection &viewProjection_);
+	void Draw(ViewProjection& viewProjection_);
 
 	///<summary>
 	///çUåÇ
@@ -64,5 +65,5 @@ private:
 	ViewProjection viewProjection_;
 
 	//íe
-	std::unique_ptr<PlayerBullet> bullet_;
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 };
