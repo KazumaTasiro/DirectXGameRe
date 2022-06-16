@@ -77,7 +77,7 @@ void Player::Move()
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
-	
+
 	Afin(worldTransform_);
 
 	worldTransform_.TransferMatrix();
@@ -88,7 +88,7 @@ void Player::Move()
 
 
 
-void Player::Draw(ViewProjection &viewProjection_)
+void Player::Draw(ViewProjection& viewProjection_)
 {
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 	//’e•`‰æ
@@ -98,19 +98,24 @@ void Player::Draw(ViewProjection &viewProjection_)
 }
 void Player::Attack()
 {
-	if (input_->PushKey(DIK_SPACE)) 
+	if (input_->PushKey(DIK_SPACE))
 	{
+		//’e‚Ì‘¬“x
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
 
+		//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚³‚¹‚é
+		velocity = AfinVector3(worldTransform_);
 
 		//’e‚ğ¶¬‚µA‰Šú‰»
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, worldTransform_.translation_);
-	
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+
 		//’e‚ğ”­Ë‚·‚é
 		bullets_.push_back(std::move(newBullet));
 	}
 }
-void Player::Afin(WorldTransform &worldTransform_)
+void Player::Afin(WorldTransform& worldTransform_)
 {
 	Matrix4 matScale;
 	Matrix4 matRot;
@@ -164,7 +169,7 @@ void Player::Afin(WorldTransform &worldTransform_)
 	matRot *= matRotZ;
 	matRot *= matRotX;
 	matRot *= matRotY;
-	
+
 	worldTransform_.matWorld_ = {
 		1,0,0,0,
 		0,1,0,0,
@@ -175,4 +180,14 @@ void Player::Afin(WorldTransform &worldTransform_)
 	worldTransform_.matWorld_ *= matRot;
 	worldTransform_.matWorld_ *= matTrans;
 }
+
+Vector3 Player::AfinVector3(WorldTransform& worldTransform_)
+{
+	return Vector3(
+		 worldTransform_.matWorld_.m[0][0] + worldTransform_.matWorld_.m[1][0] + worldTransform_.matWorld_.m[2][0],
+		 0,
+		 worldTransform_.matWorld_.m[0][2] + worldTransform_.matWorld_.m[1][2] + worldTransform_.matWorld_.m[2][2]
+	);
+}
+
 
