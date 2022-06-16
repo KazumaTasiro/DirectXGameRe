@@ -34,7 +34,7 @@ public:
 	void Move();
 	void Afin(WorldTransform& worldTransform_);
 
-	Vector3 AfinVector3(WorldTransform& worldTransform_);
+	Vector3 ConvertToVector3(WorldTransform& worldTransform_);
 
 
 	///<summary>

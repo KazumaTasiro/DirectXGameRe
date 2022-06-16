@@ -110,7 +110,7 @@ void Player::Attack()
 		Vector3 velocity(0, 0, kBulletSpeed);
 
 		//速度ベクトルを自機の向きに合わせて回転させる
-		velocity = AfinVector3(worldTransform_);
+		velocity = ConvertToVector3(worldTransform_);
 
 		//弾を生成し、初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -186,7 +186,7 @@ void Player::Afin(WorldTransform& worldTransform_)
 	worldTransform_.matWorld_ *= matTrans;
 }
 
-Vector3 Player::AfinVector3(WorldTransform& worldTransform_)
+Vector3 Player::ConvertToVector3(WorldTransform& worldTransform_)
 {
 	return Vector3(
 		worldTransform_.matWorld_.m[0][0] + worldTransform_.matWorld_.m[1][0] + worldTransform_.matWorld_.m[2][0],
