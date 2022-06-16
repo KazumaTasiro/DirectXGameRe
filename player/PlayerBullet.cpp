@@ -26,6 +26,11 @@ void PlayerBullet::Update()
 	//座標を移動させる(1フレーム文の移動量を足しこむ)
 	worldTransform_.translation_ += velocity_;
 
+	//時間経過でデス
+	if (--deathTimer_ <= 0) {
+		isDead_ = true;
+	}
+
 }
 
 void PlayerBullet::Draw(const ViewProjection& viewProjection_)

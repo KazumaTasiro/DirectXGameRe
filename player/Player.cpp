@@ -25,6 +25,11 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 
 void Player::Update()
 {
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return bullet->IsDead();
+	});
+
 	Move();
 	//キャラクター攻撃更新
 	Attack();
@@ -184,9 +189,9 @@ void Player::Afin(WorldTransform& worldTransform_)
 Vector3 Player::AfinVector3(WorldTransform& worldTransform_)
 {
 	return Vector3(
-		 worldTransform_.matWorld_.m[0][0] + worldTransform_.matWorld_.m[1][0] + worldTransform_.matWorld_.m[2][0],
-		 0,
-		 worldTransform_.matWorld_.m[0][2] + worldTransform_.matWorld_.m[1][2] + worldTransform_.matWorld_.m[2][2]
+		worldTransform_.matWorld_.m[0][0] + worldTransform_.matWorld_.m[1][0] + worldTransform_.matWorld_.m[2][0],
+		0,
+		worldTransform_.matWorld_.m[0][2] + worldTransform_.matWorld_.m[1][2] + worldTransform_.matWorld_.m[2][2]
 	);
 }
 
