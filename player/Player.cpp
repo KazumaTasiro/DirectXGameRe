@@ -30,8 +30,8 @@ void Player::Update()
 	Attack();
 
 	//’eXV
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
-		bullet->Update();
+	if (bullet_) {
+		bullet_->Update();
 	}
 }
 
@@ -91,28 +91,20 @@ void Player::Move()
 void Player::Draw(ViewProjection& viewProjection_)
 {
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
-	//’e•`‰æ
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
-		bullet->Draw(viewProjection_);
+	if (bullet_) {
+		bullet_->Draw(viewProjection_);
 	}
 }
 void Player::Attack()
 {
 	if (input_->PushKey(DIK_SPACE))
 	{
-		//’e‚Ì‘¬“x
-		const float kBulletSpeed = 1.0f;
-		Vector3 velocity(0, 0, kBulletSpeed);
-
-		//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚³‚¹‚é
-		velocity = AfinVector3(worldTransform_);
-
 		//’e‚ğ¶¬‚µA‰Šú‰»
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(model_, worldTransform_.translation_);
 
 		//’e‚ğ”­Ë‚·‚é
-		bullets_.push_back(std::move(newBullet));
+		bullet_ = newBullet;
 	}
 }
 void Player::Afin(WorldTransform& worldTransform_)
@@ -180,14 +172,3 @@ void Player::Afin(WorldTransform& worldTransform_)
 	worldTransform_.matWorld_ *= matRot;
 	worldTransform_.matWorld_ *= matTrans;
 }
-
-Vector3 Player::AfinVector3(WorldTransform& worldTransform_)
-{
-	return Vector3(
-		 worldTransform_.matWorld_.m[0][0] + worldTransform_.matWorld_.m[1][0] + worldTransform_.matWorld_.m[2][0],
-		 0,
-		 worldTransform_.matWorld_.m[0][2] + worldTransform_.matWorld_.m[1][2] + worldTransform_.matWorld_.m[2][2]
-	);
-}
-
-

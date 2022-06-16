@@ -6,8 +6,6 @@
 #include "Input.h"
 #include "ViewProjection.h"
 #include "PlayerBullet.h"
-#include <memory>
-#include <list>
 
 ///<summary>
 ///Ž©ƒLƒƒƒ‰
@@ -33,9 +31,6 @@ public:
 	void Update();
 	void Move();
 	void Afin(WorldTransform& worldTransform_);
-
-	Vector3 AfinVector3(WorldTransform& worldTransform_);
-
 
 	///<summary>
 	///•`‰æ
@@ -68,7 +63,5 @@ private:
 	ViewProjection viewProjection_;
 
 	//’e
-	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-
-	//
+	PlayerBullet* bullet_ = nullptr;
 };

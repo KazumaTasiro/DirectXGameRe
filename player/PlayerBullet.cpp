@@ -1,6 +1,6 @@
 #include "PlayerBullet.h"
 
-void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity)
+void PlayerBullet::Initialize(Model* model, const Vector3& position)
 {
 	assert(model);
 
@@ -13,19 +13,12 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 
 	//引数で受け取った初期座標をセット
 	worldTransform_.translation_ = position;
-
-	//引数で受け取った速度をメンバ関数に代入
-	velocity_ = velocity;
 }
 
 void PlayerBullet::Update()
 {
 	afin::Afin(worldTransform_);
 	worldTransform_.TransferMatrix();
-
-	//座標を移動させる(1フレーム文の移動量を足しこむ)
-	worldTransform_.translation_ += velocity_;
-
 }
 
 void PlayerBullet::Draw(const ViewProjection& viewProjection_)
